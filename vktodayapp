@@ -1,0 +1,9 @@
+#!/bin/bash
+
+gnome-terminal \
+--tab --title ReactClient --command="bash -c 'cd ~/vk/vktodayapp/client; pwd; npm start; $SHELL'" \
+--tab --title NodeServer --command="bash -c 'cd ~/vk/MDserver/server; npm run server; $SHELL'" \
+gnome-terminal \
+--window-with-profile="masedar" \
+--tab --title vk-tunnel --command="bash -c 'vk-tunnel vk-tunnel --insecure=1 --http-protocol=http --ws-protocol=wss --host=localhost --port=3000; $SHELL'" \
+--tab --title ngrok --command=" bash -c 'cd ~/backup/ngrok; ./ngrok http 5000; $SHELL'"
