@@ -26,6 +26,7 @@ NotFound = '/home/masedar/NotFound.txt'
 DiffFile = '/home/masedar/diff.html'
 
 
+
 # default
 if args.first:
     firstpath = args.first    
