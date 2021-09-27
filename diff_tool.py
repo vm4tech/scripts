@@ -1,8 +1,8 @@
 # diff_tool.py
+# created by MaseDar (https://github.com/MaseDar)
 
 import argparse
 import difflib
-import sys
 import glob
 from pathlib import Path
 import os
@@ -17,6 +17,7 @@ import os
 def findDiff(firstpath, secondpath, context, delta, args, output_file, reverse):
     
     NotFound = '/home/masedar/NotFound.txt'
+    NewFile = '/home/masedar/NewFile.txt'
 
     # Loop through all files
     # files = glob.glob(firstpath + '/**/*', recursive=True)
@@ -43,14 +44,18 @@ def findDiff(firstpath, secondpath, context, delta, args, output_file, reverse):
                 else: 
                     new_file = Path(new_file_path)
         
-        file_1 = open(old_file).readlines()
+        
         if new_file == None:
             with open(NotFound, "w") as f:
-                f.write("Not found. it's new file!!!\n")
+                f.write("Not found.\n")
             file_2 = open(NotFound).readlines()
+            with open(NewFile, "w") as f:
+                f.write("It's a new file!\n")
+            file_1 = open(NewFile).readlines()
         else:
             if reverse != 0:
                 continue
+            file_1 = open(old_file).readlines()
             file_2 = open(new_file).readlines()
         if context:
             delta += difflib.HtmlDiff().make_file(file_1, file_2, old_file, new_file, True) if reverse == 0 else difflib.HtmlDiff().make_file(file_2, file_1, new_file, old_file, True)
@@ -113,6 +118,6 @@ def script():
     print ("other path:" + str(secondpath))
     print("Output file: " + str(output_file))
     if mode: 
-        print("Mode: active")  
+        print("Mode: enabled")  
     
 script()    
