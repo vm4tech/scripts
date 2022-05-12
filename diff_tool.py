@@ -24,27 +24,30 @@ def findDiff(firstpath, secondpath, context, delta, args, output_file, reverse):
     # print(files)
     for file in glob.iglob(firstpath + '/**/*.*', recursive=True):
         old_file = Path(file)
-        print(old_file.name)
+        # Skip extension files
+        if old_file.suffix in ['.class', '.jar', '.iml', '.rej', '.properties', '.xsd', '.xml']:
+            continue
+        
+        print(old_file.name if reverse == 0 else "REVERSE ---- " + old_file.name)
         new_file = None
         
         for root, dir, files in os.walk(secondpath):
             if old_file.name in files:
-                # print(files)
                 new_file_path = os.path.join(root, old_file.name)
                 # Дополнительная проверка родителя (папки, в которой лежит файл, a/b.js != b/b.js)
                 # Если без неё, то он просто ищет файл по названию во всех директориях с secondpath
+                # Не ищет в ./ директории
                 if args.mode:
                     if str(old_file.parent.stem) not in firstpath: 
                         if os.path.basename(old_file.parent) in os.path.basename(root):
                             new_file = Path(new_file_path)
                             break
                     else:
-                        print(firstpath + "has files")
-                        return 1
+                        print(firstpath + " is directory => next")
+                        break
                 else: 
                     new_file = Path(new_file_path)
-        
-        
+
         if new_file == None:
             with open(NotFound, "w") as f:
                 f.write("Not found.\n")
@@ -55,8 +58,11 @@ def findDiff(firstpath, secondpath, context, delta, args, output_file, reverse):
         else:
             if reverse != 0:
                 continue
-            file_1 = open(old_file).readlines()
-            file_2 = open(new_file).readlines()
+            try:
+                file_1 = open(old_file).readlines()
+                file_2 = open(new_file).readlines()
+            except:
+                print("Cannot read file: " + str(old_file.name) + " / " + str(new_file.name))
         if context:
             delta += difflib.HtmlDiff().make_file(file_1, file_2, old_file, new_file, True) if reverse == 0 else difflib.HtmlDiff().make_file(file_2, file_1, new_file, old_file, True)
         else :
