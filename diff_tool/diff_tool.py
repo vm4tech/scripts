@@ -16,8 +16,8 @@ import os
 # reverse - check files on presence from secondpath in firstpath  
 def findDiff(firstpath, secondpath, context, delta, args, output_file, reverse):
     
-    NotFound = '/home/masedar/NotFound.txt'
-    NewFile = '/home/masedar/NewFile.txt'
+    NotFound = './NotFound.txt'
+    NewFile = './NewFile.txt'
 
     # Loop through all files
     # files = glob.glob(firstpath + '/**/*', recursive=True)
@@ -88,7 +88,7 @@ def script():
     mode = args.mode
     context = args.c
 
-    DiffFile = '/home/masedar/diff.html'
+    DiffFile = 'diff.html'
 
     # default
     if args.first:
