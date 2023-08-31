@@ -3,7 +3,7 @@ _________________________________
 Recursion **UNZIP** for zip files from **current folder** and **subfolders** with certain **extension** and **rename** files as *file[**zipName**].extension*
 
 ```shell
-// ./unzip -e .xml
+// ./unzip.sh -e .xml
 - zipName.zip
 	- file1.xml
 	- file2.xml
