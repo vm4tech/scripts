@@ -21,7 +21,7 @@ fi
 if [[ "$3" != "" ]]; then
     FILE_EXTENSION=$3;
 else
-    FILE_EXTENSION=".*";
+    FILE_EXTENSION=".xml";
 fi
 
 
@@ -36,15 +36,16 @@ for z in $PATH_TO_FOLDER/**/*.zip; do
       EXTENSION=${FILE#*.};
       ZIP=${z##*/};
       ZIP_NAME=${ZIP%%.*};
+      PATH_TO_ZIP_FILE=$(dirname $i);
       if [[ $FILE =~ $FILE_EXTENSION ]]; then
         # echo "file: $FILE";    
         # echo "file name: $FILE_NAME";
-        # echo "path to file: $i"; 
+        # echo "path to file: $(dirname $i)"; 
         # echo "path to zip: $z"; 
         # echo "zip: $ZIP"; 
         # echo "extension: $EXTENSION";
         NEW_FILE=$FILE_NAME[$ZIP_NAME].$EXTENSION;
-        mv "$PATH_TO_FOLDER/result/$PATH_IN_ZIP$FILE" "$PATH_TO_FOLDER/result/$NEW_FILE";
+        mv "$PATH_TO_ZIP_FILE/$PATH_IN_ZIP$FILE" "$PATH_TO_FOLDER/result/$NEW_FILE";
         echo "File: $FILE renamed to $NEW_FILE";
       fi
     done;
@@ -57,5 +58,5 @@ echo "PATH_IN_ZIP: $PATH_IN_ZIP";
 echo "FILE_EXTENSION: $FILE_EXTENSION";
 echo "PATH_TO_FOLDER: $PATH_TO_FOLDER";
 # clear -j folder
-rm -d -R $PATH_TO_FOLDER/result/$PATH_IN_ZIP;
+# rm -d -R $PATH_TO_FOLDER/result/$PATH_IN_ZIP;
 shopt -u globstar;
