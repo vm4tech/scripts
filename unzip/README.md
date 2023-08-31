@@ -12,9 +12,9 @@ Recursion **UNZIP** for zip files from **current folder** and **subfolders** wit
 		...
 
 - result
-	- file1[ZipName].xml
-	- file2[ZipName].xml
-	- file3[ZipName].xml
+	- file1[zipName].xml
+	- file2[zipName].xml
+	- file3[zipName].xml
 	
 ```
 
