@@ -8,14 +8,14 @@
 # https://unix.stackexchange.com/questions/382390/unzip-archive-with-single-file-and-rename-output-to-match-archive-name
 
 if [[ "$1" != "" ]]; then
-    PATH_TO_ZIP=$1;
+    PATH_TO_FOLDER=$1;
 else
-    PATH_TO_ZIP="*";
+    PATH_TO_FOLDER="";
 fi
 if [[ "$2" != "" ]]; then
     PATH_IN_ZIP=$2;
 else
-    PATH_IN_ZIP="*";
+    PATH_IN_ZIP="";
 fi
 
 if [[ "$3" != "" ]]; then
@@ -25,31 +25,35 @@ else
 fi
 
 
-echo "PATH_IN_ZIP: $PATH_IN_ZIP";
-echo "PATH_TO_ZIP: $PATH_TO_ZIP";
-
 # enable ** for recursion subfolder from ./ (https://askubuntu.com/questions/1287093/bash-recursive-command-to-include-files-of-current-directory-files-as-wel)
 shopt -s globstar;
-for z in **/*.zip; do
+for z in $PATH_TO_FOLDER/**/*.zip; do
     # unzip only data/* folder from zip
-    for i in $(unzip $z "*$FILE_EXTENSION" -d data); do
-      s=${i##*/};
-      zNoFolder=${z##*/};
-      echo "file: ${i##*/}";    
-      echo "file name: ${s%.*}";
-      echo "path to file: $i"; 
-      echo "path to zip: $z"; 
-      echo "zip: $zNoFolder"; 
-      echo "extension: ${i#*.}";
-      if [[ $s =~ $FILE_EXTENSION ]]; then
-        mv "data/${i##*/}" "data/${s%.*}[${zNoFolder%%.*}]$FILE_EXTENSION";
-        echo "successed unzip file $s";
-        echo "                                                           "; 
+  
+    for i in $(unzip $z "$PATH_IN_ZIP*$FILE_EXTENSION" -d "$PATH_TO_FOLDER/result"); do
+      FILE=${i##*/};
+      FILE_NAME=${FILE%.*};
+      EXTENSION=${FILE#*.};
+      ZIP=${z##*/};
+      ZIP_NAME=${ZIP%%.*};
+      if [[ $FILE =~ $FILE_EXTENSION ]]; then
+        echo "file: $FILE";    
+        echo "file name: $FILE_NAME";
+        echo "path to file: $i"; 
+        echo "path to zip: $z"; 
+        echo "zip: $ZIP"; 
+        echo "extension: $EXTENSION";
+        mv "$PATH_TO_FOLDER/result/$PATH_IN_ZIP$FILE" "$PATH_TO_FOLDER/result/$FILE_NAME[$ZIP_NAME].$EXTENSION";
         echo "                                                           "; 
       fi
-      
     done;
     echo "__________________"; 
 
 done
+
+echo "PATH_IN_ZIP: $PATH_IN_ZIP";
+echo "FILE_EXTENSION: $FILE_EXTENSION";
+echo "PATH_TO_FOLDER: $PATH_TO_FOLDER";
+# clear -j folder
+rm -d -R result/$PATH_IN_ZIP;
 shopt -u globstar;
