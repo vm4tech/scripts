@@ -31,7 +31,7 @@ For **current** folder (and subfolders) can start unzip like that:
 ```
 For external folder (and subfolders) can start unzip with **-f**:
 ```shell
-./unzip -f path/to/folder/with/zips/
+./unzip.sh -f path/to/folder/with/zips/
 ```
 
 # Unzip and rename result (folder)
