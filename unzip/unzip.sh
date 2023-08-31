@@ -6,20 +6,36 @@
 # https://www.cyberciti.biz/faq/linux-unix-shell-unzipping-many-zip-files/
 # https://stackoverflow.com/questions/60928098/how-do-i-assign-filename-to-a-variable-after-unzipping-unknown-zip-file-in-bash
 # https://unix.stackexchange.com/questions/382390/unzip-archive-with-single-file-and-rename-output-to-match-archive-name
-for z in *.zip; do 
+
+# if [[ "$path" != "" ]]; then
+#     PATH_IN_ZIP="$path"
+# else
+#     PATH_IN_ZIP="data"
+# fi
+
+# enable ** for recursion subfolder from ./ (https://askubuntu.com/questions/1287093/bash-recursive-command-to-include-files-of-current-directory-files-as-wel)
+shopt -s globstar;
+for z in **/*.zip; do
+    # unzip only data/* folder from zip
     for i in $(unzip $z "data/*"); do
       s=${i##*/};
-      echo "f: ${i##*/}";
-      echo "i: $i"; 
-      echo "z: $z"; 
-      echo "{i#*.}: ${i#*.}";
-      echo "FileNmae: ${s%.*}";
+      zNoFolder=${z##*/};
       if [[ $s =~ \.xml$ ]]; then
-        mv "data/${i##*/}" "${s%.*}[${z%%.*}].xml";
-        echo "PRINT**************"
+        echo "file: ${i##*/}";
+        echo "file name: ${s%.*}";
+        echo "path to file: $i"; 
+        echo "path to zip: $z"; 
+        echo "zip: $zNoFolder"; 
+        echo "extension: ${i#*.}";
+
+        mv "data/${i##*/}" "data/${s%.*}[${zNoFolder%%.*}].xml";
+        echo "successed unzip file $s";
+        echo "                                                           "; 
+        echo "                                                           "; 
       fi
-      echo "                                                           "; 
-      echo "                                                           "; 
+      
     done;
     echo "__________________"; 
-done;
+
+done
+shopt -u globstar;
