@@ -37,23 +37,25 @@ for z in $PATH_TO_FOLDER/**/*.zip; do
       ZIP=${z##*/};
       ZIP_NAME=${ZIP%%.*};
       if [[ $FILE =~ $FILE_EXTENSION ]]; then
-        echo "file: $FILE";    
-        echo "file name: $FILE_NAME";
-        echo "path to file: $i"; 
-        echo "path to zip: $z"; 
-        echo "zip: $ZIP"; 
-        echo "extension: $EXTENSION";
-        mv "$PATH_TO_FOLDER/result/$PATH_IN_ZIP$FILE" "$PATH_TO_FOLDER/result/$FILE_NAME[$ZIP_NAME].$EXTENSION";
-        echo "                                                           "; 
+        # echo "file: $FILE";    
+        # echo "file name: $FILE_NAME";
+        # echo "path to file: $i"; 
+        # echo "path to zip: $z"; 
+        # echo "zip: $ZIP"; 
+        # echo "extension: $EXTENSION";
+        NEW_FILE=$FILE_NAME[$ZIP_NAME].$EXTENSION;
+        mv "$PATH_TO_FOLDER/result/$PATH_IN_ZIP$FILE" "$PATH_TO_FOLDER/result/$NEW_FILE";
+        echo "File: $FILE renamed to $NEW_FILE";
       fi
     done;
-    echo "__________________"; 
 
 done
-
+echo "____________________________________________"
+echo "all files located in $PATH_TO_FOLDER/result";
+echo "____________________________________________"
 echo "PATH_IN_ZIP: $PATH_IN_ZIP";
 echo "FILE_EXTENSION: $FILE_EXTENSION";
 echo "PATH_TO_FOLDER: $PATH_TO_FOLDER";
 # clear -j folder
-rm -d -R result/$PATH_IN_ZIP;
+rm -d -R $PATH_TO_FOLDER/result/$PATH_IN_ZIP;
 shopt -u globstar;
