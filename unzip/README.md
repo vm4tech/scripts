@@ -20,7 +20,7 @@ Recursion **UNZIP** for zip files from **current folder** and **subfolders** wit
 
 __________________
 # How to use
-Copy ![](unzip.sh) and go to cmd.
+Copy [unzip.sh](unzip.sh) and go to cmd.
 
 
 ![](docs/unzip.gif)
